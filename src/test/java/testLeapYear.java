@@ -22,11 +22,18 @@ Et år er ikke et skuddår:
 public class testLeapYear {
     private static Stream<Arguments> useCases() {
         return Stream.of(
+                of(false, -4),
                 of(true, 4),
                 of(true, 40),
                 of(true, 400),
                 of(false, 100),
-                of(false, 300)
+                of(false, 300),
+                of(false, 1700),
+                of(false, 1800),
+                of(false, 1900),
+                of(true, 2000),
+                of(false, 2100),
+                of(false, 4000)
         );
     }
 
