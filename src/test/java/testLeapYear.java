@@ -2,6 +2,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
 import java.util.stream.Stream;
 import static org.junit.jupiter.params.provider.Arguments.*;
 
@@ -38,10 +40,14 @@ public class testLeapYear {
     }
 
     @ParameterizedTest()
-    @MethodSource("useCases")
-    public void testLeapYear(boolean expected, int input) {
-
-        Assertions.assertEquals(expected, LeapYear.isLeapYear(input));
+    @ValueSource(ints = {4, 40, 400, 2000})
+    public void testIfYearIsLeapYear(int year) {
+        Assertions.assertEquals(true, LeapYear.isLeapYear(year));
     }
 
+    @ParameterizedTest()
+    @ValueSource(ints = {-4, 100, 300, 1700, 1800, 1900, 2100, 4000})
+    public void testIfYearIsNotLeapYear(int year) {
+        Assertions.assertEquals(false, LeapYear.isLeapYear(year));
+    }
 }
