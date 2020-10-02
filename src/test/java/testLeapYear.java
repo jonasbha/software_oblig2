@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
@@ -22,32 +21,41 @@ Et år er ikke et skuddår:
 * */
 
 public class testLeapYear {
-    private static Stream<Arguments> useCases() {
-        return Stream.of(
-                of(false, -4),
-                of(true, 4),
-                of(true, 40),
-                of(true, 400),
-                of(false, 100),
-                of(false, 300),
-                of(false, 1700),
-                of(false, 1800),
-                of(false, 1900),
-                of(true, 2000),
-                of(false, 2100),
-                of(false, 4000)
-        );
+
+    @Test
+    public void yearIsDividableWith4AndNot100() {
+        Assertions.assertTrue(LeapYear.isLeapYear(40));
+    }
+
+    @Test
+    public void yearIsDividableWith400() {
+        Assertions.assertTrue(LeapYear.isLeapYear(400));
+    }
+
+    @Test
+    public void yearIsNotDividableWith4() {
+        Assertions.assertFalse(LeapYear.isLeapYear(5));
+    }
+
+    @Test
+    public void yearIsDividableWith100AndNot400() {
+        Assertions.assertFalse(LeapYear.isLeapYear(500));
+    }
+
+    @Test
+    public void yearIsNotDividableWith4000() {
+        Assertions.assertFalse(LeapYear.isLeapYear(4000));
     }
 
     @ParameterizedTest()
-    @ValueSource(ints = {4, 40, 400, 2000})
+    @ValueSource(ints = {4, 40, 2000})
     public void testIfYearIsLeapYear(int year) {
-        Assertions.assertEquals(true, LeapYear.isLeapYear(year));
+        Assertions.assertTrue(LeapYear.isLeapYear(year));
     }
 
     @ParameterizedTest()
-    @ValueSource(ints = {-4, 100, 300, 1700, 1800, 1900, 2100, 4000})
+    @ValueSource(ints = {-4, 300, 1700, 1800, 1900, 2100, 4000})
     public void testIfYearIsNotLeapYear(int year) {
-        Assertions.assertEquals(false, LeapYear.isLeapYear(year));
+        Assertions.assertFalse(LeapYear.isLeapYear(year));
     }
 }
