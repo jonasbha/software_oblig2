@@ -14,10 +14,10 @@ Et år er ikke et skuddår:
 
 public class LeapYear {
 
-    public static boolean isLeapYear(int year) {
+    public static boolean isLeapYear(int year) throws TooNegativeException {
 
         if (year < 0) {
-            return false;
+            throw new TooNegativeException();
         } else if (year % 4 != 0) {
             return false;
         } else if (year % 4000 == 0) {
@@ -33,3 +33,5 @@ public class LeapYear {
     }
 
 }
+
+class TooNegativeException extends Exception {/* some action */};

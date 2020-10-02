@@ -3,9 +3,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.stream.Stream;
-import static org.junit.jupiter.params.provider.Arguments.*;
-
 /*
 Et år er et skuddår:
 
@@ -23,39 +20,44 @@ Et år er ikke et skuddår:
 public class testLeapYear {
 
     @Test
-    public void yearIsDividableWith4AndNot100() {
+    public void yearIsDividableWith4AndNot100() throws TooNegativeException {
         Assertions.assertTrue(LeapYear.isLeapYear(40));
     }
 
     @Test
-    public void yearIsDividableWith400() {
+    public void yearIsDividableWith400() throws TooNegativeException {
         Assertions.assertTrue(LeapYear.isLeapYear(400));
     }
 
     @Test
-    public void yearIsNotDividableWith4() {
+    public void yearIsNotDividableWith4() throws TooNegativeException {
         Assertions.assertFalse(LeapYear.isLeapYear(5));
     }
 
     @Test
-    public void yearIsDividableWith100AndNot400() {
+    public void yearIsDividableWith100AndNot400() throws TooNegativeException {
         Assertions.assertFalse(LeapYear.isLeapYear(500));
     }
 
     @Test
-    public void yearIsNotDividableWith4000() {
+    public void yearIsNotDividableWith4000() throws TooNegativeException {
         Assertions.assertFalse(LeapYear.isLeapYear(4000));
+    }
+
+    @Test
+    public void testThrowsTooNegativeOnYearBeforeZero() {
+        Assertions.assertThrows(TooNegativeException.class, () -> { LeapYear.isLeapYear(-1); });
     }
 
     @ParameterizedTest()
     @ValueSource(ints = {4, 40, 2000})
-    public void testIfYearIsLeapYear(int year) {
+    public void testIfYearIsLeapYear(int year) throws TooNegativeException {
         Assertions.assertTrue(LeapYear.isLeapYear(year));
     }
 
     @ParameterizedTest()
-    @ValueSource(ints = {-4, 300, 1700, 1800, 1900, 2100, 4000})
-    public void testIfYearIsNotLeapYear(int year) {
+    @ValueSource(ints = {300, 1700, 1800, 1900, 2100, 4000, 8000})
+    public void testIfYearIsNotLeapYear(int year) throws TooNegativeException {
         Assertions.assertFalse(LeapYear.isLeapYear(year));
     }
 }
